@@ -1,3 +1,4 @@
+#数独
 class Solution:
     def isValidSudoku(self, board: List[List[str]]) -> bool:
         valid_list = [str(x) for x in range(1, 10)]

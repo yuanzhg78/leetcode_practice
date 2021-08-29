@@ -1,13 +1,33 @@
+class Solution:  # index
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        size = len(s)
+        if len(s) < 2:
+            return size
+        dic = {}
+        left = 0
+        res = 1
+        for right in range(size):
+            #出现重复字符更新左边界 dic记录的是下标
+            if s[right] in dic and dic[s[right]] >= left:
+                left = dic[s[right]] + 1
+            #更新结果
+            res = max(res, right - left + 1)
+            dic[s[right]] = right #每次迭代都要更新右边界
+        return res
+
+
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
         if not s:
             return 0
+        #更符合华东窗口的思想
         window=[]
         n=len(s)
         cur_len=0
         max_len=0
         for i  in range(n):
             val=s[i]
+            #不管窗口里有没有都要把右边界的字母加进来
             if  val  not  in  window:
                 window.append(val)
                 cur_len+=1
@@ -16,6 +36,7 @@ class Solution:
                 window=window[index+1:]
                 window.append(val)
                 cur_len=len(window)
+            #判断结果需不需要更新
             if cur_len > max_len: max_len = cur_len
         return max_len
 
