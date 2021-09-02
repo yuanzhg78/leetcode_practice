@@ -1,3 +1,4 @@
+# 中位数
 class Solution(object):
     def minTotalDistance(self, grid):
         """
