@@ -1,5 +1,21 @@
 #https://leetcode-cn.com/problems/subarray-sum-equals-k/solution/ha-xi-biao-zhu-xing-jie-shi-python3-by-zhu_shi_fu/
 
+#前缀和
+#default dict https://leetcode-cn.com/problems/subarray-sum-equals-k/solution/xiong-mao-shua-ti-python3-qian-zhui-he-zi-dian-yi-/
+class Solution:
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        num_times = collections.defaultdict(int)
+        num_times[0] = 1
+        cur_sum = 0
+        res = 0
+        for i in range(len(nums)):
+            cur_sum += nums[i]
+            if cur_sum - k in num_times:
+                res += num_times[cur_sum - k]
+            num_times[cur_sum] += 1
+        return res
+
+#排列组合题不能用滑动窗口的原因。这道题nums[i]可能为负数，也就是说右指针i向后移1位不能保证区间会增大，左指针j向后移1位也不能保证区间和会减小
 class Solution:
     def subarraySum(self, nums: List[int], k: int) -> int:
         dict = {0:1} #累加和最小为0
@@ -17,7 +33,8 @@ class Solution:
             else:
                 dict[sum] = 1
         return count
-
+#前缀和
+#https://leetcode-cn.com/problems/subarray-sum-equals-k/solution/de-liao-yi-wen-jiang-qian-zhui-he-an-pai-yhyf/
 
 
 
@@ -29,3 +46,17 @@ class Solution:
 
 #空间复杂度：O(n)。哈希表 mapmap 在最坏情况下可能有 n个不同的键值。
 
+#用COUNTER
+from collections import Counter
+class Solution:
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        tmp = Counter()
+        cur = 0
+        res = 0
+        for i in range(len(nums)):
+            cur += nums[i]
+            res += tmp[cur-k]
+            tmp[cur] += 1
+            if cur == k:
+                res += 1
+        return res

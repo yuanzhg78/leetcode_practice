@@ -4,6 +4,14 @@
 #         self.val = x
 #         self.left = None
 #         self.right = None
+'''
+因为每层的节点值要分开记录，所以递归的参数除了节点node以外还需要当前层数level
+如果节点已为空，return，结束当前递归分支即可
+如果res的长度已经和当前层数level相等，说明res需要多加个位置了，因为level是res数组的索引，索引是一定比长度要小的，如果相等说明数组长度不够长了，得扩容
+把当前节点加到对应层的数组中去res[level].append(node.val)
+继续依次遍历左右字节点，层数level + 1
+返回res
+'''
 
 class Solution:
     def levelOrder(self, root: TreeNode) -> List[List[int]]:
@@ -64,4 +72,23 @@ class Solution:
         return levels
 
 
+class Solution:
+    def levelOrder(self, root: TreeNode) -> List[List[int]]:
+        if not root:
+            return []
+        res = []
+        cur =[root]
+        while cur:
+            tmp = []
+            next_level = []
+            for node in cur:
+                tmp.append(node.val)
+                if node.left:
+                    next_level.append(node.left)
+                if node.right:
+                    next_level.append(node.right)
+            res.append(tmp)
+            cur = next_level
+        return res
+    
 
